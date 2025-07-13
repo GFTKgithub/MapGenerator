@@ -1,4 +1,4 @@
-A) TERRAIN
+# A) TERRAIN
 	1. Create base terrain map via fractal perlin noise (mild)
 	2. Generate tectonic plates via Worley noise: spread N plate-centers randomly
 	3. Assign each tectonic plate a type: continental / oceanic
@@ -31,24 +31,25 @@ A) TERRAIN
 	14. Set sea-level dynamically
 	
 	
-B) TEMPERATURE
+# B) TEMPERATURE
 	1. Generate cosinusoidal, latitudal base temperature map (polars cold, equator hot)
 	2. Reduce temperature based on elevation and lapse_rate ( ~6.5°C per 1000 meters )
 	3. Add noise
 	
 	
-C) Pericipitation (by iterative moisture simulation)
+# C) Precipitation (by iterative moisture simulation)
 	1. Generate moisture map:
 		I. Moist above ocean (elevation < sea_level)
 		II. Add noise
 		
-	2. Generate prevailing winds vector field
-	3. Run iterative moisture simulation (for each cell):
-		I. 	Solve for a saturation threshold based on orographic lift (positive slope above water = lower saturation) and local temperature (lower temperature = lower saturation)
-		II. If moisture > saturation, deduct moisture into percipitation by releaseFactor
-		III. Move the moisture based on the prevailing winds
+	2. Generate prevailing winds vector field + coriolis + variation
+	3. Run iterative moisture simulation (for each cell + Sliding Window algorithm):
+		I. 	Compute saturation threshold based on average local elevation (higher elevation = lower capacity) and temperature (lower temperature = lower capacity) of all neighbors
+		II. If moisture > saturation, convert excess moisture into precipitation by release_factor
+		III. Move the moisture based on the prevailing winds vector field
 		IV. Retain some portion of the moisture in the current location, move the rest into the next position
+		V. Slide averaging window
 	
 	
-D) Biome classification
-	1. Determine the biome at each cell based on the biome map via the 3 factors ( Elevation, Temperature, Percipiation ) 
+# D) Biome classification
+	1. Determine the biome at each cell based on the biome map via the 3 factors ( Elevation, Temperature, Precipitation ) 

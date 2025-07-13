@@ -1,9 +1,3 @@
-import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.patches import Patch
-from matplotlib.widgets import Button
-from noise import pnoise2
-
 # Biome colors (expanded)
 biomesColors = {
     # Cold & Polar

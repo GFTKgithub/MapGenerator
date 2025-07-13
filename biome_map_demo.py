@@ -12,12 +12,10 @@ octaves = 6
 persistence = 0.5
 lacunarity = 2.0
 
-
-
 # Biome colors (expanded)
-biomes = {
+biomeColors = {
     "Rock": (160, 160, 160),                               # Darker neutral gray
-    "Dry Highlands": (199, 196, 187),
+    "Highlands": (199, 196, 187),
     "Ice Sheet and Polar Desert": (225, 245, 255),         # Brighter ice blue
     "Tundra": (190, 215, 225),                             # Colder, slightly bluish-gray
     "Alpine Tundra": (180, 215, 225),                      # More cyan-tinted
@@ -25,7 +23,7 @@ biomes = {
     "Temperate Broadleaf Forest": (75, 135, 60),           # Richer forest green
     "Temperate Steppe and Savanna": (200, 170, 90),        # Slightly warmer
     "Subtropical Evergreen Forest": (60, 120, 95),         # Deeper forest green
-    "Mediterranean Vegetation": (175, 155, 85),            # Warmer earth tone
+    "Mediterranean": (175, 155, 85),            # Warmer earth tone
     "Monsoon Forests and Mosaic": (50, 140, 80),           # More saturated green
     "Arid Desert": (245, 220, 160),                        # Brighter sand
     "Xeric Shrubland": (225, 195, 145),                    # Slightly redder than desert
@@ -93,66 +91,66 @@ def generate_maps():
     temperature = np.clip(temperature + (temp_noise - 0.5) * 0.4, 0, 1)
 
     moisture = normalize(generate_noise_map(seed_offset=2000, scale=150.0))
-    moisture = np.clip(moisture + (temperature - 0.5) * 0.75, 0, 1)
+    moisture = np.clip(moisture + (temperature - 0.5) * 0.5, 0, 1)
 
 
 def get_biome(e, m, t): 
     # Water and shoreline
     if e < 0.3:
-        return biomes["Deep Water"]
+        return biomeColors["Deep Water"]
     elif e < 0.4:
-        return biomes["Shallow Water"]
+        return biomeColors["Shallow Water"]
     elif e < 0.45:
-        return biomes["Beach"]
+        return biomeColors["Beach"]
 
     # Super high elevation: rock
     if e > 0.85:
-        return biomes["Rock"]
+        return biomeColors["Rock"]
 
     # Montane belt
     elif e > 0.75:
         if t < 0.3:
-            return biomes["Ice Sheet and Polar Desert"] 
+            return biomeColors["Ice Sheet and Polar Desert"] 
         elif m < 0.5:
-            return biomes["Dry Highlands"]  # Assuming "Dry Highlands" fits here
+            return biomeColors["Highlands"]  # Assuming "Dry Highlands" fits here
         else:
-            return biomes["Montane Forests and Grasslands"]
+            return biomeColors["Montane Forests and Grasslands"]
 
     # Rest: based on temperature and moisture
     if t < 0.2:
-        return biomes["Ice Sheet and Polar Desert"]
+        return biomeColors["Ice Sheet and Polar Desert"]
     elif t < 0.3:
-        return biomes["Tundra"]
+        return biomeColors["Tundra"]
     elif t < 0.4:
-        return biomes["Taiga"]
+        return biomeColors["Taiga"]
     elif t < 0.5:
-        return biomes["Temperate Broadleaf Forest"] if m > 0.5 else biomes["Temperate Steppe and Savanna"]
+        return biomeColors["Temperate Broadleaf Forest"] if m > 0.5 else biomeColors["Temperate Steppe and Savanna"]
     elif t < 0.6:
-        return biomes["Subtropical Evergreen Forest"] if m > 0.5 else biomes["Mediterranean Vegetation"]
+        return biomeColors["Subtropical Evergreen Forest"] if m > 0.5 else biomeColors["Mediterranean"]
     elif t < 0.7:
         if m < 0.3:
-            return biomes["Semiarid Desert"]
+            return biomeColors["Semiarid Desert"]
         elif m < 0.5:
-            return biomes["Xeric Shrubland"]
+            return biomeColors["Xeric Shrubland"]
         else:
-            return biomes["Monsoon Forests and Mosaic"]
+            return biomeColors["Monsoon Forests and Mosaic"]
     else:
         if m < 0.2:
-            return biomes["Arid Desert"]
+            return biomeColors["Arid Desert"]
         elif m < 0.4:
-            return biomes["Dry Steppe and Thorn Forest"]
+            return biomeColors["Dry Steppe and Thorn Forest"]
         elif m < 0.6:
-            return biomes["Grass Savanna"]
+            return biomeColors["Grass Savanna"]
         elif m < 0.725:
-            return biomes["Tree Savanna"]
+            return biomeColors["Tree Savanna"]
         elif m < 0.85:
-            return biomes["Dry Forest and Woodland Savanna"]
+            return biomeColors["Dry Forest and Woodland Savanna"]
         else:
-            return biomes["Tropical Rainforest"]
+            return biomeColors["Tropical Rainforest"]
 
 
 def plot():
-    color_to_biome = {tuple(v): k for k, v in biomes.items()}
+    color_to_biome = {tuple(v): k for k, v in biomeColors.items()}
 
     # Generate initial data
     generate_maps()
@@ -190,7 +188,7 @@ def plot():
     biome_ax.axis('off')
 
     # Legend
-    legend_elements = [Patch(facecolor=np.array(color) / 255.0, label=name) for name, color in biomes.items()]
+    legend_elements = [Patch(facecolor=np.array(color) / 255.0, label=name) for name, color in biomeColors.items()]
     fig.legend(handles=legend_elements, loc='lower center', ncol=4, fontsize='small')
 
     def on_button_click(event):
