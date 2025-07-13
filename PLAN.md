@@ -2,7 +2,7 @@
 	1. Create base terrain map via fractal perlin noise (mild)
 	2. Generate tectonic plates via Worley noise: spread N plate-centers randomly
 	3. Assign each tectonic plate a type: continental / oceanic
-	4. Assign motion vector for each tectonic plate
+	4. Assign motion vectors and density for each tectonic plate
 	5. Initialize a neutral custom region_map for each special landform type (tectonic bias, mountain range, volcanic arc, trench, rift, etc. maps) (def: False)
 	6. Initialize a neutral custom mask_noise map for each special landform type (def: 0)
 	7. Create base/reference noise maps for each landform type
@@ -15,8 +15,8 @@
 		I. Mark region cells based on interaction type in the appropriate region_map
 		II. Convergent:
 				- Continental-Continental: Centered "normal" mountain range
-				- Continental-Oceanic: Centered trench + volcanic mountain arc, parallel to boundary, offset 100-300km into the continental plate
-				- Oceanic-Oceanic: Centered trench + volcanic mountain arc, parallel to boundary, offset 100-300km into random plate of the two
+				- Continental-Oceanic: Centered trench + volcanic mountain arc, parallel to boundary, offset into the continental plate
+				- Oceanic-Oceanic: Centered trench + volcanic mountain arc, parallel to boundary, offset into the least dense plate of the two
 			Divergent: 
 				- Continental-Continental: Centered rifts
 				- Continental-Oceanic: (SKIP)
