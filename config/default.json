@@ -1,0 +1,56 @@
+{
+	"terrain": {
+		"base_noise_scale": 0.8,
+		"tectonic_plate_count": 12,
+		"plate_size_distribution_power": 3,
+		"continental_density": 2.7,
+		"oceanic_density": 3.0,
+		"features": {
+			"mountain_range": {
+			"width_min": 200,
+			"width_max": 400
+			},
+			"volcanic_arc": {
+				"width_min": 50,
+				"width_max": 150,
+				"offset_min": 100,
+				"offset_max": 300
+			},
+			"trench": {
+				"width_min": 50,
+				"width_max": 100
+			},
+			"rift": {
+				"width_min": 50,
+				"width_max": 300	
+			},
+			"ocean_ridge": {
+				"width_min": 10,
+				"width_max": 60
+			}
+		},
+		"blur_strengths": {
+			"mountain": 2,
+			"trench": 3,
+			"volcanic_arc": 1
+		}
+	},
+	"temperature": {
+		"lapse_rate_c_per_km": 6.5,
+		"equator_temp": 30,
+		"pole_temp": -20,
+		"noise_strength": 1.2
+	},
+	"precipitation": {
+		"release_factor": 0.4,
+		"retention_factor": 0.6,
+		"moisture_initial_ocean": 1.0,
+		"saturation_temp_factor": 0.05,
+		"saturation_elev_factor": 0.01,
+		"wind_strength": 1.0,
+		"average_kernel_size": 3
+	},
+	"biome": {
+		"sea_level_percent": 0.4
+	}
+}
