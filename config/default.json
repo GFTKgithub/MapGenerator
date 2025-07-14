@@ -51,6 +51,33 @@
 		"average_kernel_size": 3
 	},
 	"biome": {
-		"sea_level_percent": 0.4
+		"sea_level_percent": 0.4,
+        "colors": {
+            "rock": [160, 160, 160],
+            "highlands": [199, 196, 187],
+            "ice sheet and polar desert": [225, 245, 255],
+            "tundra": [188, 218, 230],
+            "alpine tundra": [175, 210, 220],
+            "taiga": [120, 160, 120],
+            "temperate broadleaf forest": [75, 135, 60],
+            "temperate steppe and savanna": [200, 170, 90],
+            "subtropical evergreen forest": [60, 120, 95],
+            "mediterranean": [178, 158, 87],
+            "monsoon forests and mosaic": [50, 145, 85],
+            
+            "arid desert": [250, 215, 150],               
+            "xeric shrubland": [240, 185, 140],          
+            "dry steppe and thorn forest": [215, 175, 115],
+            "semiarid desert": [240, 225, 185],           
+            
+            "grass savanna": [165, 205, 100],
+            "tree savanna": [110, 170, 80],
+            "dry forest and woodland savanna": [90, 145, 65],
+            "tropical rainforest": [20, 110, 40],
+            "montane forests and grasslands": [105, 125, 112],
+            "deep water": [0, 0, 70],
+            "shallow water": [0, 115, 160],
+            "beach": [240, 220, 180]
+        }
 	}
 }
