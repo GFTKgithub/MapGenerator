@@ -1,5 +1,5 @@
 import numpy as np
-from src.visualiziation import show_noise_map
+from src.visualization import show_noise_map
 from src.noise import generate_noise, generate_fractal_noise
 from src.utils import generate_random_string, string_to_int_seed
 
