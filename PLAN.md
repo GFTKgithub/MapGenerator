@@ -1,6 +1,6 @@
 # A) TERRAIN
 	1. Create base terrain map via fractal perlin noise (mild)
-	2. Generate tectonic plates via Worley noise: spread N plate-centers randomly
+	2. Generate tectonic plates via Weighted Probabilistic Flood Fill algoirthm  
 	3. Assign each tectonic plate a type: continental / oceanic
 	4. Assign motion vectors and density for each tectonic plate
 	5. Initialize a neutral custom region_map for each special landform type (tectonic bias, mountain range, volcanic arc, trench, rift, etc. maps) (def: False)
