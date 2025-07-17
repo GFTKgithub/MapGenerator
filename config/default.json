@@ -1,8 +1,10 @@
 {
+	"width": 512,
+	"height": 512,
 	"terrain": {
 		"base_noise_scale": 0.8,
-		"tectonic_plate_count": 12,
-		"plate_size_distribution_power": 3,
+		"plates_counts": [7, 8],
+		"plates_growth_probs_ranges": [[0.95, 1], [0.75, 0.825]],
 		"continental_density": 2.7,
 		"oceanic_density": 3.0,
 		"features": {

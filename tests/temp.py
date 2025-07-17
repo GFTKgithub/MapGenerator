@@ -88,9 +88,8 @@ minor_count = plate_count - major_count
 fig, ax = plt.subplots()
 plt.subplots_adjust(left=0.25, bottom=0.35)
 
-colors = plt.cm.tab20(np.linspace(0, 1, 20))
-# Repeat colormap to cover all 30 plates (you can use any large discrete colormap)
-cmap = ListedColormap(np.tile(colors, (2, 1)))
+colors = plt.cm.get_cmap('hsv', plate_count)
+cmap = ListedColormap(colors(np.arange(plate_count)))
 
 image = ax.imshow(np.zeros((height, width)), cmap=cmap, interpolation='nearest', vmin=0, vmax=plate_count-1)
 ax.axis('off')
