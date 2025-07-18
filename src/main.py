@@ -5,5 +5,5 @@ from src.terrain import generate_terrain, unwrap_growth_probs
 from src.noise import generate_plates_weighted
 
 terrain_map = generate_terrain()
-# show_noise_map(terrain_map)
-show_tectonic_map(terrain_map)
+show_noise_map(terrain_map)
+# show_tectonic_map(terrain_map)

@@ -19,14 +19,16 @@ class TerrainConfig:
     height: int
     plates_counts: list[int]
     plates_growth_probs_ranges: list[list[float]]
+    oceanic_fraction: float
     seed: int = string_to_int_seed(generate_random_string())
 
 default_terrain_config = TerrainConfig(
     width = default_config['width'],
     height = default_config['height'],
-    seed = string_to_int_seed(generate_random_string()),
     plates_counts = default_config['terrain']['plates_counts'],
-    plates_growth_probs_ranges = default_config['terrain']['plates_growth_probs_ranges']
+    plates_growth_probs_ranges = default_config['terrain']['plates_growth_probs_ranges'],
+    oceanic_fraction = default_config['terrain']['oceanic_fraction'],
+    seed = string_to_int_seed(generate_random_string())
 ) 
 
 def unwrap_growth_probs(ranges: list[list[float]], count: int) -> list[float]:
@@ -37,11 +39,25 @@ def generate_terrain(config: TerrainConfig = default_terrain_config) -> list[lis
     width, height = config.width, config.height
     seed = config.seed
     total_plates_count = sum(config.plates_counts)
-
-    random.seed(seed)  # ensure reproducible growth_probs
-    growth_probs = unwrap_growth_probs(config.plates_growth_probs_ranges, total_plates_count)
+    random.seed(seed)  # ensure deterministic randomness
 
     terrain = generate_fractal_noise(width=width, height=height, scale=0.02, octaves=4, seed=seed)
-    tectonic_plates = generate_plates_weighted(width=width, height=height, plate_count=total_plates_count, growth_probs=growth_probs, seed=seed)
+    tectonic_mask = [[0 for y in range(height)] for x in range(width)] # initiate mask map
 
-    return tectonic_plates
+    growth_probs = unwrap_growth_probs(config.plates_growth_probs_ranges, total_plates_count)
+    tectonic_base = generate_plates_weighted(width=width, height=height, plate_count=total_plates_count, growth_probs=growth_probs, seed=seed)
+    
+    tectonic_types = [1 if random.random() > config.oceanic_fraction else 0 for _ in range(total_plates_count)] 
+    tectonic_densities = [
+        random.uniform(0, 0.5) if tectonic_types[i] == 1 else random.uniform(0.5, 1) 
+        for i in range(len(tectonic_types))
+    ]
+
+    for x in range(len(tectonic_base)):
+        for y in range(len(tectonic_base[0])):
+            tectonic_mask[x][y] = (1.0 - tectonic_densities[tectonic_base[x][y]]) * 2 - 1 # Fill the tectonic_mask based on `high density = low elevation`
+                
+    
+
+    # return terrain
+    return tectonic_mask

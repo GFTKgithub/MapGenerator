@@ -2,7 +2,7 @@ from noise import pnoise2
 from queue import deque
 import random
 
-def generate_noise(width, height, scale=0.1, offset_x=0, offset_y=0, seed=0):
+def generate_noise(width, height, scale=0.1, offset_x=0, offset_y=0, seed=0) -> list[list[float]]:
     seed = seed % 256
 
     # Hashed offset based on seed

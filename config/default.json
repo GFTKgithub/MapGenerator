@@ -5,6 +5,7 @@
 		"base_noise_scale": 0.8,
 		"plates_counts": [7, 8],
 		"plates_growth_probs_ranges": [[0.95, 1], [0.75, 0.825]],
+		"oceanic_fraction": 0.71,
 		"continental_density": 2.7,
 		"oceanic_density": 3.0,
 		"features": {
