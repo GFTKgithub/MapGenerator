@@ -1,7 +1,10 @@
 from noise import pnoise2
 from queue import deque
 import random
+import math
 
+
+#~ Noise generation functions
 def generate_noise(width, height, scale=0.1, offset_x=0, offset_y=0, seed=0) -> list[list[float]]:
     seed = seed % 256
 
@@ -88,3 +91,51 @@ def generate_plates_weighted(width, height, plate_count, growth_probs, seed) -> 
 
     fill_holes(grid, width=width, height=height)
     return grid
+
+#~ Blur functions
+
+def convolve2d(image, kernel):
+    h, w = len(image), len(image[0])
+    kh, kw = len(kernel), len(kernel[0])
+    ph, pw = kh // 2, kw // 2
+
+    output = [[0.0 for _ in range(w)] for _ in range(h)]
+
+    for i in range(h):
+        for j in range(w):
+            acc = 0.0
+            for ki in range(kh):
+                for kj in range(kw):
+                    ii = i + ki - ph
+                    jj = j + kj - pw
+                    if 0 <= ii < h and 0 <= jj < w:
+                        acc += image[ii][jj] * kernel[ki][kj]
+            output[i][j] = acc
+    return output
+
+def box_blur(image, kernel_size):
+    weight = 1.0 / (kernel_size * kernel_size)
+    kernel = [[weight for _ in range(kernel_size)] for _ in range(kernel_size)]
+    return convolve2d(image, kernel)
+
+def gaussian_kernel(size, sigma):
+    kernel = [[0.0 for _ in range(size)] for _ in range(size)]
+    center = size // 2
+    total = 0.0
+
+    for i in range(size):
+        for j in range(size):
+            x, y = i - center, j - center
+            val = math.exp(-(x*x + y*y) / (2 * sigma * sigma))
+            kernel[i][j] = val
+            total += val
+
+    for i in range(size):
+        for j in range(size):
+            kernel[i][j] /= total
+
+    return kernel
+
+def gaussian_blur(image, size, sigma):
+    kernel = gaussian_kernel(size, sigma)
+    return convolve2d(image, kernel)

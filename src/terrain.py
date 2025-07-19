@@ -9,7 +9,7 @@ with open(config_path, 'r') as f:
 import numpy as np
 import random
 
-from .noise import generate_fractal_noise, generate_plates_weighted
+from .noise import *
 from .utils import generate_random_string, string_to_int_seed
 
 
@@ -59,5 +59,6 @@ def generate_terrain(config: TerrainConfig = default_terrain_config) -> list[lis
                 
     
 
-    # return terrain
+    # tectonic_mask = gaussian_blur(tectonic_mask, 5, 1.5)
+    tectonic_mask = box_blur(tectonic_mask, 5)
     return tectonic_mask
