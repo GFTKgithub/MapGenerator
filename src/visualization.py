@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
+from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 
 def show_noise_map(noise: list[list[float]]):
@@ -29,4 +30,19 @@ def show_tectonic_map(map: list[list[float]]):
     image = ax.imshow(color_indices, cmap=cmap, interpolation='nearest', vmin=0, vmax=n_colors-1)
     plt.title("Tectonic Map")
     plt.axis('off')
+    plt.show()
+
+def show_heightmap_3d(heightmap: list[list[float]], z_range: tuple[float, float] = None) -> None:
+    heightmap_np = np.array(heightmap)
+    x = np.arange(heightmap_np.shape[1])
+    y = np.arange(heightmap_np.shape[0])
+    x, y = np.meshgrid(x, y)
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    ax.plot_surface(x, y, heightmap_np, cmap='terrain')
+
+    if z_range:
+        ax.set_zlim(z_range[0], z_range[1])
+
     plt.show()

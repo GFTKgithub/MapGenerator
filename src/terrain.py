@@ -41,7 +41,7 @@ def generate_terrain(config: TerrainConfig = default_terrain_config) -> list[lis
     total_plates_count = sum(config.plates_counts)
     random.seed(seed)  # ensure deterministic randomness
 
-    terrain = generate_fractal_noise(width=width, height=height, scale=0.02, octaves=4, seed=seed)
+    terrain = generate_fractal_noise(width=width, height=height, scale=0.02, octaves=7, seed=seed)
     tectonic_mask = [[0 for y in range(height)] for x in range(width)] # initiate mask map
 
     growth_probs = unwrap_growth_probs(config.plates_growth_probs_ranges, total_plates_count)
@@ -57,7 +57,10 @@ def generate_terrain(config: TerrainConfig = default_terrain_config) -> list[lis
         for y in range(len(tectonic_base[0])):
             tectonic_mask[x][y] = (1.0 - tectonic_densities[tectonic_base[x][y]]) * 2 - 1 # Fill the tectonic_mask based on `high density = low elevation`
                 
-    tectonic_mask = box_blur(tectonic_mask, 5)
+                
+    tectonic_mask = box_blur(tectonic_mask, 9)
     terrain = mask_and_normalize(terrain, tectonic_mask)
+
+    terrain = np.array(terrain) * 0.25
 
     return terrain
