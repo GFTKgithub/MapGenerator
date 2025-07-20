@@ -139,3 +139,22 @@ def gaussian_kernel(size, sigma):
 def gaussian_blur(image, size, sigma):
     kernel = gaussian_kernel(size, sigma)
     return convolve2d(image, kernel)
+
+#~ Other 
+def normalize(data: list[list[float]]) -> list[list[float]]:
+    flat = [val for row in data for val in row]
+    min_val, max_val = min(flat), max(flat)
+    if min_val == max_val:
+        return [[0.0 for _ in row] for row in data]
+    return [[(2 * (val - min_val) / (max_val - min_val)) - 1 for val in row] for row in data]
+
+def mask_and_normalize(map1: list[list[float]], map2: list[list[float]]) -> list[list[float]]:
+    combined = [
+        [a + b for a, b in zip(row1, row2)]
+        for row1, row2 in zip(map1, map2)
+    ]
+    flat = [val for row in combined for val in row]
+    min_val, max_val = min(flat), max(flat)
+    if min_val == max_val:
+        return [[0.0 for _ in row] for row in combined]
+    return [[(2 * (val - min_val) / (max_val - min_val)) - 1 for val in row] for row in combined]

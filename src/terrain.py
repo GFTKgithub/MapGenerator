@@ -57,8 +57,7 @@ def generate_terrain(config: TerrainConfig = default_terrain_config) -> list[lis
         for y in range(len(tectonic_base[0])):
             tectonic_mask[x][y] = (1.0 - tectonic_densities[tectonic_base[x][y]]) * 2 - 1 # Fill the tectonic_mask based on `high density = low elevation`
                 
-    
-
-    # tectonic_mask = gaussian_blur(tectonic_mask, 5, 1.5)
     tectonic_mask = box_blur(tectonic_mask, 5)
-    return tectonic_mask
+    terrain = mask_and_normalize(terrain, tectonic_mask)
+
+    return terrain
