@@ -8,3 +8,4 @@ terrain_map = generate_terrain()
 # show_noise_map(terrain_map)
 # show_tectonic_map(terrain_map)
 show_heightmap_3d(terrain_map, [0, 5])
+render_all
